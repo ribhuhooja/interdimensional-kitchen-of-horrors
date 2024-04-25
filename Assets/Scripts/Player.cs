@@ -1,17 +1,46 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : Placeable
 {
-    // Start is called before the first frame update
-    void Start()
+    private Controls controls;
+
+    private void OnEnable()
     {
-        
+        controls.Enable();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
+    {
+        controls.Disable();
+    }
+
+    private void Awake()
+    {
+        controls = new Controls();
+        controls.Player.HorizontalMove.performed += HorizontalMoveOnperformed;
+        controls.Player.VerticalMove.performed += VerticalMoveOnperformed;
+    }
+
+    private void VerticalMoveOnperformed(InputAction.CallbackContext obj)
+    {
+        AttemptMovePlayer(new(0, obj.ReadValue<int>()));
+    }
+
+    private void HorizontalMoveOnperformed(InputAction.CallbackContext obj)
+    {
+        AttemptMovePlayer(new(obj.ReadValue<int>(), 0));
+    }
+
+    private void MoveOnperformed(InputAction.CallbackContext obj)
+    {
+        obj.ReadValue<int>();
+    }
+
+    private void AttemptMovePlayer(Vector2Int move)
     {
         
     }

@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &326710211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 326710212}
+  m_Layer: 0
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &326710212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326710211}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7447516, y: 0.8769478, z: 0.09256196}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &475617591
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,12 +183,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e177915b34f747c1b63fddcdfe7095a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numrows: 11
-  numcols: 11
+  initialGameTiles: {fileID: 11400000, guid: ec5c4e9dd360543d298882961024ae7d, type: 2}
   gridWidth: 10
   gridHeight: 10
   scale: 0.8
   tilePrefab: {fileID: 3449075249987631638, guid: 57c0c09ad894e4ee4a6a8ed415e3b500, type: 3}
+  playerPrefab: {fileID: 6814825493746277344, guid: d040526fdc7f347b5a49952fd9acf7f6, type: 3}
+  cauldronPrefab: {fileID: -2327336378280449304, guid: a0b8a5383d53547a988b8560e11a7613, type: 3}
 --- !u!4 &475617593
 Transform:
   m_ObjectHideFlags: 0
@@ -399,3 +431,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 475617593}
+  - {fileID: 326710212}
