@@ -5,6 +5,12 @@ using UnityEngine;
 public class Tile : MonoBehaviour {
     public int X { get; private set; }
     public int Y { get; private set; }
+    
+    public bool Spawnable { get; private set; }
+
+    public Vector2Int Coords {
+        get => new Vector2Int(X, Y);
+    }
 
     private Ground ground;
 
@@ -14,6 +20,7 @@ public class Tile : MonoBehaviour {
     public void Initialize(int x, int y, Ground ground) {
         X = x;
         Y = y;
+        Spawnable = true; // TODO: better starting config
 
         this.ground = ground;
         transform.localScale *= ground.Scale;
@@ -33,12 +40,18 @@ public class Tile : MonoBehaviour {
         return objectOnTile;
     }
 
+    public bool HasObjectOnTile()
+    {
+        return objectOnTile != null;
+    }
+
     private void SetObjectOnTile(Placeable newObject)
     {
         objectOnTile = newObject;
+        objectOnTile.UpdateLocation(this);
     }
 
-    public bool NaiveMoveObjectOnTile(Tile other)
+    public bool MoveObjectOnTileTo(Tile other)
     {
         if (other.GetObjectOnTile())
         {
@@ -49,6 +62,23 @@ public class Tile : MonoBehaviour {
         objectOnTile = null;
 
         return true;
+    }
+
+    public void SpawnObjectOnTile(Placeable obj)
+    {
+        if (!Spawnable || HasObjectOnTile())
+        {
+            return;
+        }
+
+        objectOnTile = obj;
+    }
+
+    public void DestroyObjectOnTile()
+    {
+        Debug.Log(objectOnTile);
+        Destroy(objectOnTile.gameObject);
+        objectOnTile = null;
     }
     
 }

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4734415434190484716}
   - component: {fileID: 8433276343956753011}
-  - component: {fileID: -2327336378280449304}
+  - component: {fileID: 1090272174083958525}
   m_Layer: 0
-  m_Name: Cauldron
+  m_Name: Test moveable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.7944628, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-2327336378280449304
+--- !u!114 &1090272174083958525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,6 +94,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4400659005525006236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82f50f866210f48d4b5f2eb3f77e087f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f574c50101c44d85b7744d672535940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ground: {fileID: 0}
+  tileOn: {fileID: 0}
+  moveable: 1
+  prefabForStorage: {fileID: -5117886641666905053, guid: 22b97a7677ffd4a02af4f11cc24ead04, type: 3}

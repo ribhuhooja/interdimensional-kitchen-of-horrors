@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Ground : MonoBehaviour {
@@ -36,9 +39,8 @@ public class Ground : MonoBehaviour {
     [SerializeField] private float scale;
 
     [SerializeField] private Tile tilePrefab;
-    [SerializeField] private Player playerPrefab;
-    [SerializeField] private Cauldron cauldronPrefab;
     private Player player;
+    private List<Placeable> placeables = new();
 
     private Tile[,] grid;
 
@@ -54,35 +56,144 @@ public class Ground : MonoBehaviour {
 
         grid = new Tile[numcols, numrows];
 
+        CreateGround();
+        InitializeGrid();
+        InitializePlaceables();
+    }
+
+    private void InitializePlaceables()
+    {
+        for (int i = 0; i < initialGameTiles.placeablePrefabs.Length; i++)
+        {
+            Placeable prefab = initialGameTiles.placeablePrefabs[i];
+            Vector2Int location = initialGameTiles.placeableLocations[i];
+        
+            Placeable instantiatedPlaceable = Instantiate(prefab);
+            instantiatedPlaceable.Initialize(this, location, scale);
+        
+            if (instantiatedPlaceable.TryGetComponent<Player>(out Player player))
+            {
+                this.player = player;
+            }
+            
+            placeables.Add(instantiatedPlaceable);
+        }
+    }
+
+    private void InitializeGrid()
+    {
         for (int i = 0; i < numcols; ++i) {
             for (int j = 0; j < numrows; ++j) {
-                Tile tile = Instantiate(tilePrefab, transform);
+                Tile tile = Instantiate(tilePrefab, transform); 
                 tile.Initialize(i, j, this);
                 grid[i, j] = tile;
             }
         }
-
-        player = Instantiate(playerPrefab);
-        player.Initialize(this, initialGameTiles.playerSpawnLocation, scale);
-        
-        //TODO: where do I actually store all these placeable objects?
-        Cauldron cauldron = Instantiate(cauldronPrefab, transform);
-        cauldron.Initialize(this, initialGameTiles.cauldronLocation, scale);
-        
     }
 
-    public Tile getTile(int x, int y)
+
+    private void CreateGround()
+    {
+        
+    }
+    
+    public Tile GetTile(int x, int y)
     {
         return grid[x, y];
     }
 
-    // Start is called before the first frame update
-    void Start() {
+    public Tile LocateTileInDirection(Tile tile, Vector2Int direction)
+    {
+        int oldX = tile.X;
+        int oldY = tile.Y;
+        int newX = oldX + direction.x;
+        int newY = oldY + direction.y;
 
+        if (IsValidCoordinate(oldX, oldY) && IsValidCoordinate(newX, newY))
+        {
+            return grid[newX, newY];
+        }
+
+        return null;
     }
 
-    // Update is called once per frame
-    void Update() {
+    private bool IsValidCoordinate(int x, int y)
+    {
+        return (x >= 0 && x < numcols) && (y >= 0 && y < numrows);
+    }
 
+    public bool AttemptMove(Tile tile, Vector2Int direction)
+    {
+        // if there is no object on the tile, do nothing
+        // (there is nothing to move0
+        if (!tile.HasObjectOnTile())
+        {
+            return false;
+        }
+        
+        // validate the direction
+        // only (+-1, 0) and (0, +-1) are allowed
+        if (direction.x * direction.y != 0 && direction.sqrMagnitude != 1)
+        {
+            return false;
+        }
+
+        // check whether the tile being moved to actually exists
+        Vector2Int next = tile.Coords + direction;
+        if (!IsValidCoordinate(next.x, next.y))
+        {
+            return false;
+        }
+
+        // Does that tile have an object on it?
+        // If not, just move to it and return true
+        Tile nextTile = grid[next.x, next.y];
+        if (!nextTile.HasObjectOnTile())
+        {
+            return tile.MoveObjectOnTileTo(nextTile);
+        }
+        
+        // If here, then the next tile does have an object on it
+        Placeable objectOnNextTile = nextTile.GetObjectOnTile();
+        Placeable objectOnCurrentTile = tile.GetObjectOnTile();
+        
+        
+        // If that object is a container that is still accepting items,
+        // AND the current placeable can be stored,
+        // store the current placeable inside the container
+        if (objectOnNextTile.TryGetComponent<PlaceableContainer>(out var container)
+        && container.IsAcceptingItems
+        && objectOnCurrentTile.IsStorable)
+        {
+            container.AddPlaceableFromBoard(objectOnCurrentTile);
+            return true;
+        }
+        
+        // if that object is immovable, we can't move
+        if (!objectOnNextTile.Moveable)
+        {
+            return false;
+        }
+        
+        // if the object is moveable, try to move it
+        // the result of this depends on what is up ahead in that
+        // direction from that object
+        bool success = AttemptMove(nextTile, direction);
+        if (!success)
+        {
+            return false;
+        }
+        
+        // if the move was successful the next tile is empty now
+        return tile.MoveObjectOnTileTo(nextTile);
+    }
+
+    // can't directly call Destroy(placeable) whenever we want to do so
+    // because that messes up ground's bookkeeping
+    // Worse, it can cause a use-after-destroy exception
+    public void DestroyPlaceable(Placeable placeable)
+    {
+        placeables.Remove(placeable);
+        placeable.tileOn.DestroyObjectOnTile();
     }
 }

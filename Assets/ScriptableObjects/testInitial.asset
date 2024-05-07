@@ -10,13 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4ac159e54a6e45b79e4065ec102fe80, type: 3}
-  m_Name: DefaultInitial
+  m_Name: testInitial
   m_EditorClassIdentifier: 
   numrows: 11
   numcols: 11
   placeablePrefabs:
   - {fileID: 7738388814437937595, guid: d040526fdc7f347b5a49952fd9acf7f6, type: 3}
   - {fileID: 1090272174083958525, guid: a0b8a5383d53547a988b8560e11a7613, type: 3}
+  - {fileID: 1090272174083958525, guid: 6a590c9bcc9a94d3fb74a25066ea7dc8, type: 3}
+  - {fileID: 1090272174083958525, guid: 6a590c9bcc9a94d3fb74a25066ea7dc8, type: 3}
+  - {fileID: 1090272174083958525, guid: 6a590c9bcc9a94d3fb74a25066ea7dc8, type: 3}
   placeableLocations:
   - {x: 5, y: 6}
   - {x: 5, y: 5}
+  - {x: 3, y: 1}
+  - {x: 2, y: 7}
+  - {x: 6, y: 9}

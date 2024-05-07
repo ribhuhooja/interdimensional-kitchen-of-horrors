@@ -10,6 +10,6 @@ public class InitialGameTiles : ScriptableObject
    public int numrows;
    public int numcols;
    
-   public Vector2Int playerSpawnLocation;
-   public Vector2Int cauldronLocation;
+   public Placeable[] placeablePrefabs;
+   public Vector2Int[] placeableLocations;
 }
