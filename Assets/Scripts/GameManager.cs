@@ -5,25 +5,35 @@ using UnityEngine;
 
 public enum Daytime
 {
-    Dawn,
-    Dusk,
-    Noon,
-    Midnight
+    Dawn,       // t = 0.75
+    Dusk,       // t = 0.25
+    Noon,       // t = 0
+    Midnight    // t = 0.5
 }
 
 public class GameManager : MonoBehaviour
 {
     // Singleton
     private static GameManager instance;
-    public static GameManager Instance => instance;
+
+    public static GameManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
 
     [SerializeField] private float dayLength;
     public float DayLength => dayLength;
 
     [SerializeField] private float startTime;
 
-    private float currentTime;  // a single source of truth for the game time
+    [SerializeField] private float currentTime;  // a single source of truth for the game time
     public float CurrentTime => currentTime;
+
+    private int daysElapsed = 0;
+    public int DaysElapsed => daysElapsed;
 
     private float speedup = 1;
     
@@ -63,6 +73,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         currentTime += Time.deltaTime * speedup;
+        if (currentTime > 2 * dayLength)
+        {
+            currentTime %= 2 * dayLength;
+            daysElapsed += 1;
+        }
         perFrame?.Invoke(currentTime);
     }
 

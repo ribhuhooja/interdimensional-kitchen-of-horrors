@@ -29,7 +29,7 @@ public class DayNightCycleColorer : MonoBehaviour
     // just use this static value
     // private static float CommonInterpolationPercentage = 0;
 
-    private void Awake()
+    private void Start()
     {
         if (spriteRenderer == null && !TryGetComponent<SpriteRenderer>(out spriteRenderer))
         {
@@ -37,12 +37,9 @@ public class DayNightCycleColorer : MonoBehaviour
         }
 
         dayLength = GameManager.Instance.DayLength;
-    }
-
-    private void OnEnable()
-    {
         GameManager.Instance.SubscribeToPerFrame(set_color);
     }
+
 
     private void OnDisable()
     {
@@ -61,10 +58,8 @@ public class DayNightCycleColorer : MonoBehaviour
 
     private void set_color(float time)
     {
-        // to get smaller numbers
-        time %= (2*dayLength);
         // to start at the beginning of the day instead of the middle
-        time -= offsetPercentage * dayLength;
+        time -= 2*offsetPercentage * dayLength;
         // the function has a period of pi, but we want it to be dayLength
         // So we multiply the argument by pi
         double t = 0.5 * (1 - flat_cosine((Mathf.PI * time / dayLength), flatness));

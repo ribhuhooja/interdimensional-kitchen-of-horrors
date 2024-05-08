@@ -56,7 +56,6 @@ public class Ground : MonoBehaviour {
 
         grid = new Tile[numcols, numrows];
 
-        CreateGround();
         InitializeGrid();
         InitializePlaceables();
     }
@@ -91,12 +90,6 @@ public class Ground : MonoBehaviour {
         }
     }
 
-
-    private void CreateGround()
-    {
-        
-    }
-    
     public Tile GetTile(int x, int y)
     {
         return grid[x, y];
