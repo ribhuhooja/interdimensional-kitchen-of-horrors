@@ -5,6 +5,9 @@
 # Own stuff
 TODO.txt
 
+#Macos
+.DS_Store
+
 # Default stuff below
 /[Ll]ibrary/
 /[Tt]emp/
