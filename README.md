@@ -4,7 +4,7 @@ Gather ingredients and cook food to feed hungry monsters at night! If you don't 
 Play at: https://rustymechanical.itch.io/feed-the-horrors
 
 ## Note to DALI -
-I wasn't able to implement all the core mechanics by the time of the submission (mainly - monsters).
+The project was still very incomplete by the time I submitted and the cooking and monsters described weren't implemented.
 The `main` branch contains the code I submitted. I wanted to keep working on this project for fun after the submission deadline; that work is in the `post-submit` branch (If you want you can take a look at that too). The README for each branch contains a description
 of what has been implemented by that time. The build is still just what was submitted.
 
@@ -58,6 +58,7 @@ Midnight: A fairy-berry spawns
 ## Currently Unimplemented
 These are features mentioned in the tutorial that aren't implemented
 
+- Cooking - items can be pushed into the cauldron but they don't cook right now
 - Fairy-berries don't move
 - There is no pause 
 - Monsters haven't been implemented yet
